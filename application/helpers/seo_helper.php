@@ -39,9 +39,9 @@ if ( ! function_exists('output_seo_metadata')) {
 		
 		$out = '';
 		
-		$out .= "<meta name='description' content='".options['seo_meta_desc']."'>\n";
-		$out .= "<meta name='keywords' content='".options['seo_meta_tags']."'>\n";
-		$out .= "<meta name='author' content='".options['site_name']."'>\n";
+		$out .= "<meta name='description' content='".$options['seo_meta_desc']."'>\n";
+		$out .= "<meta name='keywords' content='".$options['seo_meta_tags']."'>\n";
+		$out .= "<meta name='author' content='".$options['site_name']."'>\n";
 		
 		return $out;
 	}

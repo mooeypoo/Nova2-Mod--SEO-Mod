@@ -49,8 +49,8 @@ $panel = array(
 		/*********************/
 		/****** SEO MOD ******/
 		/*********************/
-		//$this->load->helper('seo'); 
-		//echo output_seo_metadata();
+		$this->load->helper('seo'); 
+		echo output_seo_metadata();
 		/*********************/
 		/****** SEO MOD ******/
 		/*********************/
