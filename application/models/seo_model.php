@@ -100,9 +100,12 @@ class Seo_model extends CI_Model {
 	/***** SECTIONS *****/
 	/********************/
 	
-	public function get_all_sections() {
+	public function get_all_sections($id = '') {
 	
 		$this->db->from('modseo_sections');
+		if (!empty($id)) {
+			$this->db->where('id', $id);
+		}
 				
 		$query = $this->db->get();
 		

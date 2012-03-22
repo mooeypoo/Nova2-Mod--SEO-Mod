@@ -54,6 +54,11 @@
 			return false;
 		});
 		
+		$("#map_name").change(function() {
+			var sval = $(this).val().replace(/ /g,"_").toLowerCase();
+
+			$("#map_alias").val(sval);
+		});
 
 	});
 </script>

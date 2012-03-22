@@ -48,6 +48,10 @@
 							<?php echo form_input($inputs['sitemaps']['name']);?>
 						</p>
 						<p>
+							<kbd>Sitemap Alias</kbd>
+							<?php echo form_input($inputs['sitemaps']['alias']);?>
+						</p>
+						<p>
 							<kbd>Sitemap Type</kbd>
 							<?php echo form_dropdown('map_type',$inputopts['sitemaps']['type']);?>
 						</p>

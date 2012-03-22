@@ -1,4 +1,12 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#map_name").change(function() {
+			var sval = $("#map_name").val().replace(/ /g,"_");
+			$("#map_alias").value(sval);
+		});
+	});
+</script>
 
 <?php echo text_output($header, 'h2');?>
 
@@ -9,6 +17,11 @@
 				<td class="cell-label">Sitemap Name</td>
 				<td class="cell-spacer"></td>
 				<td><?php echo form_input($inputs['name']);?></td>
+			</tr>
+			<tr>
+				<td class="cell-label">Sitemap Alias</td>
+				<td class="cell-spacer"></td>
+				<td><?php echo form_input($inputs['alias']);?></td>
 			</tr>
 			<tr>
 				<td class="cell-label">Sitemap Type</td>

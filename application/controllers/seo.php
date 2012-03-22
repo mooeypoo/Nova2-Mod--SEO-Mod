@@ -72,9 +72,11 @@ class Seo extends Nova_admin {
 					$map_name = $this->input->post('map_name', true);
 					$map_type = $this->input->post('map_type', true);
 					$map_parent = $this->input->post('map_parent', true);
+					$map_alias = $this->input->post('map_alias', true);
 
 					$insert_array = array(
 						'name' => $this->security->xss_clean($map_name),
+						'alias' => $this->security->xss_clean($map_alias),
 						'type' => $this->security->xss_clean($map_type),
 						'map_parent' => $this->security->xss_clean($map_parent),
 						'user_created' => 'y',
@@ -185,6 +187,7 @@ class Seo extends Nova_admin {
 
 					$update_array = array(
 						'name' => $this->security->xss_clean($this->input->post('map_name', true)),
+						'alias' => $this->security->xss_clean($this->input->post('map_alias', true)),
 						'type' => $this->security->xss_clean($this->input->post('map_type', true)),
 						'map_parent' => $this->security->xss_clean($this->input->post('map_parent', true)),
 						'sections' => implode(',',$sections)
@@ -350,6 +353,7 @@ class Seo extends Nova_admin {
 					$data['sitemaps'][$s->map_parent]['sub'][$s->id] = array(
 						'id' => $s->id,
 						'name' => $s->name,
+						'alias' => $s->alias,
 						'type' => $s->type,
 						'parent' => $s->map_parent,
 						'active' => $s->active,
@@ -359,6 +363,7 @@ class Seo extends Nova_admin {
 					$data['sitemaps'][$s->id] = array(
 						'id' => $s->id,
 						'name' => $s->name,
+						'alias' => $s->alias,
 						'type' => $s->type,
 						'parent' => $s->map_parent,
 						'active' => $s->active,
@@ -405,6 +410,9 @@ class Seo extends Nova_admin {
 				'name' => array(
 					'name' => 'map_name',
 					'id' => 'map_name'),
+				'alias' => array(
+					'name' => 'map_alias',
+					'id' => 'map_alias'),
 				'button' => array(
 					'type' => 'submit',
 					'class' => 'button-main',

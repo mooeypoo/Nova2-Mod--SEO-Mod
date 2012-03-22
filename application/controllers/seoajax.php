@@ -8,7 +8,6 @@ class Seoajax extends Nova_ajax {
 		parent::__construct();
 	}
 	
-	
 	public function del_sitemap($id = false) {
 		// load the resources
 		$this->load->model('seo_model', 'seo');
@@ -58,6 +57,10 @@ class Seoajax extends Nova_ajax {
 					'name' => 'map_name',
 					'id' => 'map_name',
 					'value' => $map->name),
+				'alias' => array(
+					'name' => 'map_alias',
+					'id' => 'map_alias',
+					'value' => $map->alias),
 				'submit' => array(
 					'type' => 'submit',
 					'class' => 'hud_button',
@@ -199,19 +202,6 @@ class Seoajax extends Nova_ajax {
 			Template::render();
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function edit_link($id = false, $secid = false) {
 //		$allowed = Auth::check_access('seo/index', false);
 		
@@ -289,7 +279,12 @@ class Seoajax extends Nova_ajax {
 			Template::render();
 	}
 
-
+	
+	
+	public function check_alias($alias = false) {
+		$this->load->model('seo_model', 'seo');
+	
+	}
 
 	
 
