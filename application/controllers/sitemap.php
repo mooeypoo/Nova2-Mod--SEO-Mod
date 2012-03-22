@@ -17,7 +17,7 @@ class Sitemap extends Nova_main {
 	}
 	
 	
-	public function index($map = false, $format = 'xml') {
+	public function index() {
 
 		// load the resources
 		$this->load->model('seo_model', 'seo');
@@ -103,6 +103,116 @@ class Sitemap extends Nova_main {
 		
 		Template::render();
 	}
+
+	public function html($mapid = false) {
+
+		// load the resources
+		$this->load->model('seo_model', 'seo');
+
+		// get the sitemap
+		if ((empty($mapid))) {
+			$data['header'] = "Map not found.";
+		
+		} else {
+			$sitemap = $this->seo->get_sitemap($mapid);
+			if (empty($sitemap)) {
+				$data['header'] = "Map not found.";
+			} else {
+				$data['temp'] = $sitemap;
+				$data['header'] = "Sitemap: ".$sitemap->name;
+				
+						$data['sitemap']['title'] = $sitemap->name;
+						if (!empty( $sitemap->sections )) {
+							$sectionlist = explode(',',$sitemap->sections);
+							if (count($sectionlist) > 0) {
+								foreach ($sectionlist as $sid) {
+									$st = $this->seo->get_section($sid);
+									$data['sitemap']['sections'][$st->id]['title'] = $st->section_title;
+									if ($st->section_type == 'custom') {
+										$tlinks = $this->seo->get_all_links($st->id);
+										if ($tlinks->num_rows() > 0) {
+											foreach ($tlinks->result() as $link) {
+												$data['sitemap']['sections'][$st->id]['links'][] = array(
+													'link' => $link->link,
+													'title' => $link->title,
+												); 
+											}
+										}
+										
+									} elseif ($st->section_type == 'model') {
+										$links = $this->seo->get_model_links($st->section_model);
+										if (count($links) > 0) {
+											foreach ($links as $l) {
+												$data['sitemap']['sections'][$st->id]['links'][] = array(
+													'link' => $l['link'],
+													'title' => $l['name'],
+												); 
+											}
+										}
+									}
+									
+								}
+							}
+						}
+				
+				//check for daughter maps:
+				$submaps = $this->seo->get_all_sitemaps('y', $mapid,'');
+				if ($submaps->num_rows() > 0) {
+					unset($sectionlist);
+					unset($stemp);
+					$mapsections = '';
+					foreach ($submaps->result() as $s) {
+						$data['sitemap']['sub']['title'] = $s->name;
+						if (!empty( $s->sections )) {
+							$sectionlist = explode(',',$s->sections);
+							if (count($sectionlist) > 0) {
+								foreach ($sectionlist as $sid) {
+									$st = $this->seo->get_section($sid);
+									$data['sitemap']['sub']['sections'][$st->id]['title'] = $st->section_title;
+									if ($st->section_type == 'custom') {
+										$tlinks = $this->seo->get_all_links($st->id);
+										if ($tlinks->num_rows() > 0) {
+											foreach ($tlinks->result() as $link) {
+												$data['sitemap']['sub']['sections'][$st->id]['links'][] = array(
+													'link' => $link->link,
+													'title' => $link->title,
+												); 
+											}
+										}
+										
+									} elseif ($st->section_type == 'model') {
+										$links = $this->seo->get_model_links($st->section_model);
+										if (count($links) > 0) {
+											foreach ($links as $l) {
+												$data['sitemap']['sub']['sections'][$st->id]['links'][] = array(
+													'link' => $l['link'],
+													'title' => $l['name'],
+												); 
+											}
+										}
+									}
+									
+								}
+							}
+						}
+					}
+				}
+				
+			} //end if empty sitemap
+		} //end if empty map id
+
+
+
+		$view_loc = "sitemap_html";
+		$this->_regions['content'] = Location::view($view_loc, $this->skin, 'main', $data);
+		$this->_regions['title'].= $data['header'];
+		
+		Template::assign($this->_regions);
+		
+		Template::render();
+
+	}
+
 	
 }
 

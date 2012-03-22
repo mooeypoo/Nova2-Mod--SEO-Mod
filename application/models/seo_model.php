@@ -181,6 +181,53 @@ class Seo_model extends CI_Model {
 		return $query;
 	}
 
+	public function get_model_links($model = false) {
+	
+		if (!empty($model)) {
+		
+			switch ($model) {
+				case "users":
+					$this->db->from('users');
+					$this->db->where('status', 'active');
+					$urlpiece = 'personnel/user';
+
+					$query = $this->db->get();
+					if ($query->num_rows() > 0) {
+						foreach ($query->result() as $mod) {
+							$arr[$mod->userid]['name'] = $mod->name;
+							$arr[$mod->userid]['link'] = $urlpiece.'/'.$mod->userid;
+						}
+					}
+					
+					break;
+				case "characters":
+					$this->db->from('characters');
+					$this->db->where('crew_type', 'active');
+					$this->db->or_where('crew_type', 'npc');
+					$urlpiece = 'personnel/character';
+
+					$query = $this->db->get();
+					if ($query->num_rows() > 0) {
+						foreach ($query->result() as $mod) {
+							$arr[$mod->charid]['name'] = $mod->first_name.' '.$mod->middle_name.' '.$mod->last_name.' '.$mod->suffix;
+							$arr[$mod->charid]['link'] = $urlpiece.'/'.$mod->charid;
+						}
+					}
+					break;
+				case "posts":
+					break;
+				case "logs":
+					break;
+				case "news":
+					break;
+			}			
+			
+			
+			return $arr;
+		}
+	}
+
+
 	public function get_link($id = '', $return = '') {
 		$this->db->from('modseo_custom_links');
 		$this->db->where('id', $id);
